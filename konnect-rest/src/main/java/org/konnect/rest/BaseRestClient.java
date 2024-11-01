@@ -1,11 +1,14 @@
 package org.konnect.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
-import org.konnect.rest.util.JsonHelper;
+import org.konnect.utils.json.JsonUtils;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Objects;
+
 
 @Slf4j
 public class BaseRestClient implements RestClient {
@@ -18,11 +21,12 @@ private static final Duration DEFAULT_CONNECT_TIMEOUT = Duration.ofSeconds(10);
     }
 
     public BaseRestClient(Duration connectionTimeout) {
-        this.client = HttpClient.newBuilder()
-                .connectTimeout(connectionTimeout).build();
+        Duration customTimeout = Objects.requireNonNullElse(connectionTimeout, DEFAULT_CONNECT_TIMEOUT);
+        this.client = HttpClient.newBuilder().connectTimeout(customTimeout).build();
     }
 
-    public <T> RestResponse<T> call(RestRequest request, Class<T> responseType) throws RestApiException {
+    @Override
+    public <T> RestResponse<T> call(RestRequest request, TypeReference<T> responseType) throws RestApiException {
         try {
             log.debug("Attempting Http request {}", request.loggableRequest());
             HttpResponse<String> response = client.send(request.buildHttpRequest(), HttpResponse.BodyHandlers.ofString());
@@ -37,11 +41,11 @@ private static final Duration DEFAULT_CONNECT_TIMEOUT = Duration.ofSeconds(10);
                 T responseBody;
                 // Check if the response body is empty and return null if so
                 if (response.body() != null && !response.body().isEmpty()) {
-                    // If the responseType is String, return the raw response
-                    if (responseType == String.class) {
-                        responseBody = responseType.cast(response.body());
+                    // Special handling for String type
+                    if (responseType.getType().equals(String.class)) {
+                        responseBody = (T) response.body();
                     } else {
-                        responseBody = JsonHelper.instance().readValue(response.body(), responseType);
+                        responseBody = JsonUtils.instance().readValue(response.body(), responseType);
                     }
                     responseBuilder.responseBody(responseBody);
                 }
@@ -54,6 +58,8 @@ private static final Duration DEFAULT_CONNECT_TIMEOUT = Duration.ofSeconds(10);
             throw new RestApiException(500, e.getMessage(), e);
         }
     }
+
+
 
     private void handleFailure(RestRequest request, HttpResponse<String> response) throws RestApiException {
         if (response == null) {

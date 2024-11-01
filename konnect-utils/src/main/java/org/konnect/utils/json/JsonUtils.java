@@ -1,5 +1,6 @@
-package org.konnect.rest.util;
+package org.konnect.utils.json;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -7,7 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class JsonHelper {
+public class JsonUtils {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -28,5 +29,15 @@ public class JsonHelper {
             // Skip exception
         }
         return null;
+    }
+
+    // Utility to convert Class<T> to TypeReference<T>
+    public static <T> TypeReference<T> toTypeReference(Class<T> type) {
+        return new TypeReference<>() {
+            @Override
+            public java.lang.reflect.Type getType() {
+                return type;
+            }
+        };
     }
 }

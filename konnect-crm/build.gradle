@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.konnect.rest'
+group = 'org.konnect'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,11 +10,13 @@ repositories {
 }
 
 dependencies {
+
+    implementation project(':konnect-rest')
+    implementation project(':konnect-auth')
     implementation project(':konnect-utils')
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.24.1'
 }
 
 test {

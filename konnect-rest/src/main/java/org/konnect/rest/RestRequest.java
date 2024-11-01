@@ -1,8 +1,9 @@
 package org.konnect.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Builder;
 import lombok.Getter;
-import org.konnect.rest.util.JsonHelper;
+import org.konnect.utils.json.JsonUtils;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -40,7 +41,7 @@ public class RestRequest {
         String bodyStr = "null";
         if (requestBody != null) {
             try {
-                bodyStr = JsonHelper.instance().writeValueAsString(requestBody);
+                bodyStr = JsonUtils.instance().writeValueAsString(requestBody);
             } catch (JsonProcessingException e) {
                 // ignore
             }
@@ -63,7 +64,7 @@ public class RestRequest {
 
         HttpRequest.BodyPublisher publisher = HttpRequest.BodyPublishers.noBody();
         if (this.requestBody != null) {
-            final String json = JsonHelper.convertToJsonString(this.requestBody);
+            final String json = JsonUtils.convertToJsonString(this.requestBody);
             publisher = HttpRequest.BodyPublishers.ofString(json);
         }
 
@@ -129,8 +130,18 @@ public class RestRequest {
             return this;
         }
 
+        public Builder withQueryParam(Map<String, String> keyVal) {
+            queryParams.putAll(keyVal);
+            return this;
+        }
+
         public Builder withHeader(String key, String val) {
             headers.put(key, val);
+            return this;
+        }
+
+        public Builder withHeader(Map<String, String> keyVal) {
+            headers.putAll(keyVal);
             return this;
         }
 

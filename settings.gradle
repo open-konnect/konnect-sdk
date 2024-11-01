@@ -1,3 +1,6 @@
 rootProject.name = 'konnect-sdk'
 include 'konnect-rest'
+include 'konnect-crm'
+include 'konnect-auth'
+include 'konnect-utils'
 

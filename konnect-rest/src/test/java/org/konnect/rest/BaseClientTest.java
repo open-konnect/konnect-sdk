@@ -1,5 +1,6 @@
 package org.konnect.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 
 public class BaseClientTest {
