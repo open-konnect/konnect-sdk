@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':konnect-rest')
     implementation project(':konnect-utils')
 
     testImplementation platform('org.junit:junit-bom:5.10.0')

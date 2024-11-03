@@ -8,7 +8,7 @@ import org.konnect.utils.string.StringUtils;
 @Getter
 @Setter
 public class AuthConfig {
-    private String cname;
+    private String tenantId;
     private AuthType authType;
     private String accessToken;
     private String refreshToken;

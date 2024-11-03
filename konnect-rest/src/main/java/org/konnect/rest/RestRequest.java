@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Builder;
 import lombok.Getter;
 import org.konnect.utils.json.JsonUtils;
+import org.konnect.utils.string.StringUtils;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -72,15 +73,17 @@ public class RestRequest {
         return builder.build();
     }
 
-    private URI buildUri() {
+    public URI buildUri() {
         StringBuilder sb = new StringBuilder();
         if (!this.uri.startsWith("http")) {
             sb.append("https://");
         }
         sb.append(this.uri);
         if (this.uri.endsWith("/")) sb.deleteCharAt(sb.length() - 1);
-        if (this.api.charAt(0) != '/') sb.append("/");
-        sb.append(this.api);
+        if (StringUtils.isNotBlank(this.api)) {
+            if (this.api.charAt(0) != '/') sb.append("/");
+            sb.append(this.api);
+        }
 
         if (this.queryParams != null) {
             StringJoiner joiner = new StringJoiner("&");

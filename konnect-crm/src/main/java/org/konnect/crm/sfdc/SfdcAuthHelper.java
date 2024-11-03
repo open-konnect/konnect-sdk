@@ -1,6 +1,5 @@
 package org.konnect.crm.sfdc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

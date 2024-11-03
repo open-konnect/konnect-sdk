@@ -35,4 +35,15 @@ public class StringUtils {
     public static int length(CharSequence cs) {
         return cs == null ? 0 : cs.length();
     }
+
+    public static boolean equalsIgnoreCase(CharSequence cs1, CharSequence cs2) {
+        if (cs1 == cs2) return true;
+        if (length(cs1) != length(cs2)) return false;
+        for (int i = 0; i < cs1.length(); i++) {
+            char ch1 = Character.toUpperCase(cs1.charAt(i));
+            char ch2 = Character.toUpperCase(cs2.charAt(i));
+            if (ch1 != ch2) return false;
+        }
+        return true;
+    }
 }

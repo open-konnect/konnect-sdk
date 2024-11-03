@@ -31,7 +31,7 @@ public enum SfdcExceptionCode {
 
     SFDC_INTERNAL_SERVER_ERROR(500, "Internal server error from Salesforce"),
 
-    INTERNAL_SERVER_ERROR(500, "Internal server error from Mindtickle"),
+    INTERNAL_SERVER_ERROR(500, "Internal server error on our side"),
 
     REQ_TIMED_OUT(503, "Request to the underlying gateway timed out.");
 
