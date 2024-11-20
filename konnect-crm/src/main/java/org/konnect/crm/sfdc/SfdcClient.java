@@ -35,10 +35,10 @@ public class SfdcClient {
 
     private static final RequestConfig DEFAULT_REQ_CONFIG = RequestConfig.builder().timeout(API_TIMEOUT).build();
 
-    public SfdcClient(final AuthConfig authConfig, final String apiVersion) {
+    public SfdcClient(final SfdcAuthConfig authConfig, final String apiVersion) {
         this.restClient = new RetryableRestClient(CONNECT_TIMEOUT, null);
         this.authHelper = new SfdcAuthHelper(authConfig);
-        this.baseUrl = authHelper.getAuthConfig().getInstanceUrl();
+        this.baseUrl = authConfig.getInstanceUrl();
         this.servicesAPI = "/services/data/" + apiVersion;
         this.headers = Map.of(
                 "Authorization", "Bearer " + authHelper.getAuthConfig().getAccessToken(),

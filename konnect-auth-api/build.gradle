@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'org.konnect'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(':konnect-auth')
+    implementation project(':konnect-utils')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Jackson
+    // Enforce the specified version
+    //implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.18.0"))
+    //implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
+    //implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0'
+
+
+    runtimeOnly 'com.h2database:h2' // Lightweight database for development/testing
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

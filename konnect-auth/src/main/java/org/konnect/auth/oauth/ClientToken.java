@@ -20,6 +20,9 @@ public class ClientToken {
     private String resourceUrl;
 
     public boolean hasExpired() {
+        if (expiresAt == null) {
+            return false;
+        }
         return expiresAt.isBefore(Instant.now());
     }
 }

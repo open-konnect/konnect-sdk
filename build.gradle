@@ -34,9 +34,13 @@ allprojects {
         // Logging implementation provider
         //implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.24.1'
 
-        // Json helpers
-        implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
-        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0'
+
+
+        // Jackson
+        // Enforce the specified version
+        //implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.18.0"))
+        //implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
+        //implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0'
 
         // Lombok Dependencies
         compileOnly 'org.projectlombok:lombok:1.18.34'

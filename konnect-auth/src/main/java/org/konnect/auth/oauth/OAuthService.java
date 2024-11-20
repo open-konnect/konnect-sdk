@@ -1,5 +1,6 @@
 package org.konnect.auth.oauth;
 
+import lombok.Builder;
 import org.konnect.auth.oauth.app.OAuthAppConfig;
 import org.konnect.auth.oauth.app.OAuthAppConfigProvider;
 import org.konnect.auth.oauth.app.OAuthAppConfigProviderLocal;
@@ -9,6 +10,7 @@ import org.konnect.auth.oauth.session.LocalSessionManager;
 import org.konnect.auth.oauth.session.OAuthSessionData;
 import org.konnect.auth.oauth.session.SessionManager;
 import org.konnect.rest.*;
+import org.konnect.utils.json.JsonUtils;
 
 public class OAuthService {
 
@@ -55,7 +57,9 @@ public class OAuthService {
         RestRequest request = baseOAuthResource.exchangeTokenRequest(resource, authConfig, sessionData);
         try {
             RestResponse<String> response = restClient.call(request, String.class);
+            System.out.println("Token exchanged raw " + JsonUtils.convertToJsonString(response));
             ClientToken token = baseOAuthResource.parseToken(resource, response);
+            System.out.println("Token exchanged " + JsonUtils.convertToJsonString(token));
             tokenStorage.storeToken(sessionData.getTenantId(), sessionData.getResourceId(), token);
         } catch (RestApiException e) {
             throw new RuntimeException(e);

@@ -67,18 +67,20 @@ public class BaseOAuthResource {
     }
 
     public ClientToken parseToken(OAuthResource resource, RestResponse<String> tokenExchangeResp) {
-        JsonNode respJson = JsonUtils.instance().convertValue(tokenExchangeResp.getResponseBody(), JsonNode.class);
+        JsonNode respJson = JsonUtils.readValue(tokenExchangeResp.getResponseBody(), JsonNode.class);
+        ClientToken clientToken = new ClientToken();
         final String accessToken = respJson.get(ACCESS_TOKEN_KEY).asText();
         final String refreshToken = respJson.get(REFRESH_TOKEN_KEY).asText();
         final String tokenType = respJson.get("token_type").asText();
-        final int expiresIn = respJson.get("expires_in").asInt();
-        Instant expiresAt = Instant.now().plusSeconds(expiresIn);
+        if (respJson.has("expires_in")) {
+            final int expiresIn = respJson.get("expires_in").asInt();
+            Instant expiresAt = Instant.now().plusSeconds(expiresIn);
+            clientToken.setExpiresAt(expiresAt);
+        }
 
-        ClientToken clientToken = new ClientToken();
         clientToken.setAccessToken(accessToken);
         clientToken.setRefreshToken(refreshToken);
         clientToken.setTokenType(tokenType);
-        clientToken.setExpiresAt(expiresAt);
 
         resource.decorateClientToken(clientToken, respJson);
 

@@ -24,7 +24,7 @@ public class SfdcAuthHelper {
     private static final String REFRESH_TOKEN_KEY = "refresh_token";
     private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
 
-    private final AuthConfig authConfig;
+    private final SfdcAuthConfig authConfig;
 
     public boolean isTokenRefreshAllowed() {
         return StringUtils.isNoneBlank(authConfig.getRefreshToken(),

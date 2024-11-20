@@ -1,9 +1,9 @@
-package org.konnect.auth.oauth;
+package org.konnect;
 
-import org.konnect.auth.oauth.resource.ResourceType;
+import org.konnect.auth.oauth.ClientToken;
 import org.konnect.utils.json.JsonUtils;
 
-public class Test {
+public class Test2 {
 
     public static void main(String[] args) {
         //OAuthService authService = new OAuthService();
